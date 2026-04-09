@@ -1,0 +1,21 @@
+/* index.css — global reset */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  color: #111827;
+  background: #f9fafb;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Spinner keyframes used by ProtectedRoute */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
