@@ -1,121 +1,141 @@
-/* Sidebar.css */
+/* ============================================================
+   Sidebar — dark navy design
+   ============================================================ */
 
 .sidebar {
-  width: 200px;
-  min-width: 200px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  width: 225px;
+  min-width: 225px;
+  background: #0f172a;
   display: flex;
   flex-direction: column;
   height: 100vh;
   position: sticky;
   top: 0;
+  overflow: hidden;
 }
 
+/* ---------- Logo area ---------- */
 .sb-logo {
-  padding: 18px 16px 14px;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
 }
 
 .sb-logo-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #111827;
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: 0.04em;
 }
 
 .sb-logo-sub {
-  font-size: 10px;
-  color: #9ca3af;
+  display: block;
+  font-size: 11px;
+  color: #475569;
+  margin-top: 2px;
 }
 
+/* Role pill */
+.sb-role-pill {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sb-role-pill.student     { background: rgba(59,130,246,.15); color: #93c5fd; border: 1px solid rgba(59,130,246,.25); }
+.sb-role-pill.coordinator { background: rgba(16,185,129,.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,.25); }
+.sb-role-pill.supervisor  { background: rgba(139,92,246,.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,.25); }
+
+/* ---------- Navigation ---------- */
 .sb-nav {
   flex: 1;
-  padding: 10px 8px;
+  padding: 12px 10px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
+
+.sb-nav::-webkit-scrollbar { width: 4px; }
+.sb-nav::-webkit-scrollbar-track { background: transparent; }
+.sb-nav::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
 
 .sb-section {
   font-size: 10px;
-  color: #9ca3af;
+  font-weight: 700;
+  color: #334155;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 8px 8px 4px;
+  letter-spacing: 0.08em;
+  padding: 10px 8px 5px;
   margin: 0;
 }
 
 .sb-link {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
+  gap: 9px;
+  padding: 8px 10px;
   border-radius: 8px;
   font-size: 13px;
-  color: #6b7280;
+  color: #94a3b8;
   text-decoration: none;
   margin-bottom: 1px;
   transition: background 0.12s, color 0.12s;
   cursor: pointer;
+  user-select: none;
 }
 
-.sb-link:hover:not(.sb-link--active):not(.sb-link--locked) {
-  background: #f9fafb;
-  color: #111827;
+.sb-link:hover:not(.sb-link--active) {
+  background: rgba(255,255,255,.05);
+  color: #cbd5e1;
 }
 
 .sb-link--active {
-  background: #eff6ff;
-  color: #1d4ed8;
-  font-weight: 500;
-}
-
-.sb-link--locked {
-  opacity: 0.38;
-  cursor: not-allowed;
-  pointer-events: none;
+  background: rgba(59,130,246,.18);
+  color: #93c5fd;
+  font-weight: 600;
 }
 
 .sb-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: currentColor;
   flex-shrink: 0;
+  opacity: 0.6;
 }
 
-.sb-lock {
-  margin-left: auto;
-  font-size: 9px;
-  background: #f3f4f6;
-  color: #9ca3af;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  padding: 1px 5px;
-}
+.sb-link--active .sb-dot { opacity: 1; }
 
+/* ---------- Footer ---------- */
 .sb-footer {
   padding: 12px 14px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid rgba(255,255,255,.07);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .sb-avatar {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
   border-radius: 50%;
-  background: #eff6ff;
-  color: #1d4ed8;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
 }
+
+.sb-avatar.student     { background: #2563eb; }
+.sb-avatar.coordinator { background: #059669; }
+.sb-avatar.supervisor  { background: #7c3aed; }
 
 .sb-user {
   flex: 1;
@@ -124,7 +144,17 @@
 
 .sb-user-email {
   font-size: 11px;
-  color: #6b7280;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.sb-user-name {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -135,13 +165,16 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  color: #9ca3af;
-  padding: 2px;
+  font-size: 15px;
+  color: #334155;
+  padding: 4px;
   line-height: 1;
-  transition: color 0.12s;
+  border-radius: 6px;
+  transition: color 0.12s, background 0.12s;
+  flex-shrink: 0;
 }
 
 .sb-logout:hover {
   color: #ef4444;
+  background: rgba(239,68,68,.1);
 }

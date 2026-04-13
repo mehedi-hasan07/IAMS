@@ -8,26 +8,20 @@ import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase/firebase'
 import './LoginPage.css'
 
-const ROLES = ['student', 'coordinator', 'supervisor']
-
 export default function LoginPage() {
   const navigate = useNavigate()
-  const [tab, setTab] = useState('login') // 'login' | 'signup'
+  const [tab, setTab] = useState('login')
 
-  // Login state
-  const [loginEmail, setLoginEmail] = useState('')
+  const [loginEmail, setLoginEmail]       = useState('')
   const [loginPassword, setLoginPassword] = useState('')
 
-  // Signup state
-  const [signupName, setSignupName] = useState('')
-  const [signupEmail, setSignupEmail] = useState('')
+  const [signupName, setSignupName]         = useState('')
+  const [signupEmail, setSignupEmail]       = useState('')
   const [signupPassword, setSignupPassword] = useState('')
-  const [signupRole, setSignupRole] = useState('student')
 
-  const [error, setError] = useState('')
+  const [error, setError]     = useState('')
   const [loading, setLoading] = useState(false)
 
-  // ── Login ──────────────────────────────────────────────────
   async function handleLogin(e) {
     e.preventDefault()
     setError('')
@@ -42,7 +36,6 @@ export default function LoginPage() {
     }
   }
 
-  // ── Signup ─────────────────────────────────────────────────
   async function handleSignup(e) {
     e.preventDefault()
     setError('')
@@ -52,18 +45,11 @@ export default function LoginPage() {
     }
     setLoading(true)
     try {
-      // 1. Create the Firebase Auth account
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        signupEmail,
-        signupPassword
-      )
-      // 2. Write the user's role and name to Firestore
-      //    This is what ProtectedRoute and the dashboard read later
+      const { user } = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword)
       await setDoc(doc(db, 'users', user.uid), {
         name: signupName,
         email: signupEmail,
-        role: signupRole,
+        role: 'student',
         createdAt: new Date().toISOString(),
       })
       navigate('/dashboard')
@@ -78,31 +64,29 @@ export default function LoginPage() {
     <div className="login-shell">
       <div className="login-card">
         <div className="login-logo">
+          <div className="login-logo-badge"><span>IA</span></div>
           <h1 className="login-logo-title">IAMS</h1>
           <p className="login-logo-sub">Industrial Attachment Management System</p>
         </div>
 
-        {/* Tab switcher */}
         <div className="login-tabs">
           <button
             className={`login-tab ${tab === 'login' ? 'active' : ''}`}
             onClick={() => { setTab('login'); setError('') }}
           >
-            Log in
+            Sign in
           </button>
           <button
             className={`login-tab ${tab === 'signup' ? 'active' : ''}`}
             onClick={() => { setTab('signup'); setError('') }}
           >
-            Sign up
+            Create account
           </button>
         </div>
 
-        {/* Error banner */}
         {error && <div className="login-error">{error}</div>}
 
-        {/* ── LOGIN FORM ── */}
-        {tab === 'login' && (
+        {tab === 'login' ? (
           <form onSubmit={handleLogin} className="login-form">
             <div className="form-group">
               <label htmlFor="l-email">Email address</label>
@@ -131,10 +115,7 @@ export default function LoginPage() {
               {loading ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
-        )}
-
-        {/* ── SIGNUP FORM ── */}
-        {tab === 'signup' && (
+        ) : (
           <form onSubmit={handleSignup} className="login-form">
             <div className="form-group">
               <label htmlFor="s-name">Full name</label>
@@ -169,32 +150,24 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <div className="form-group">
-              <label>I am a</label>
-              <div className="role-row">
-                {ROLES.map((r) => (
-                  <button
-                    key={r}
-                    type="button"
-                    className={`role-badge ${signupRole === r ? 'selected' : ''}`}
-                    onClick={() => setSignupRole(r)}
-                  >
-                    {r.charAt(0).toUpperCase() + r.slice(1)}
-                  </button>
-                ))}
-              </div>
+            <div className="role-info">
+              Registering as <strong>Student</strong>
+              <div className="role-info-sub">Staff accounts are created by the system administrator.</div>
             </div>
             <button className="btn-primary" type="submit" disabled={loading}>
               {loading ? 'Creating account…' : 'Create account'}
             </button>
           </form>
         )}
+
+        <p className="login-footer-note">
+          University of Botswana · CSI341
+        </p>
       </div>
     </div>
   )
 }
 
-// Turn Firebase error codes into readable messages
 function friendlyError(code) {
   switch (code) {
     case 'auth/user-not-found':
